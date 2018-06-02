@@ -13,7 +13,7 @@ public class CamelEIPRoutingExample extends RouteBuilder {
 
         from("direct:consumer")
                 .routeId("consumer")
-                .split(body().tokenize("-"))
+                .split(body().tokenize("-")).parallelProcessing()
                 .log("${body}")
                 .to("direct:reverse");
 //                .choice()

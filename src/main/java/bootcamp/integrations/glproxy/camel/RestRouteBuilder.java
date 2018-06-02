@@ -35,24 +35,24 @@ public class RestRouteBuilder extends RouteBuilder {
                 })
                 .endRest();
 
-        rest("/topic")
-                .consumes("application/json")
-                .produces("application/json")
-                .post("/{url}")
-                .outType(String.class)
-                .route()
-                .log("Sending to topic: ${header.url}")
-                .setProperty("urlIn", simple("${header.url}"))
-                .process((exchange) -> {
-                    boolean results = template.executeInTransaction(t -> {
-                        ProducerRecord<String, String> record =
-                                new ProducerRecord<String, String>("test", (String) exchange.getIn().getHeader("url"));
-                        template.send(record);
-
-                        return true;
-                    });
-                })
-                .setBody(simple("${property.urlIn} message was send!"))
-                .endRest();
+//        rest("/topic")
+//                .consumes("application/json")
+//                .produces("application/json")
+//                .post("/{url}")
+//                .outType(String.class)
+//                .route()
+//                .log("Sending to topic: ${header.url}")
+//                .setProperty("urlIn", simple("${header.url}"))
+//                .process((exchange) -> {
+//                    boolean results = template.executeInTransaction(t -> {
+//                        ProducerRecord<String, String> record =
+//                                new ProducerRecord<String, String>("test", (String) exchange.getIn().getHeader("url"));
+//                        template.send(record);
+//
+//                        return true;
+//                    });
+//                })
+//                .setBody(simple("${property.urlIn} message was send!"))
+//                .endRest();
     }
 }
