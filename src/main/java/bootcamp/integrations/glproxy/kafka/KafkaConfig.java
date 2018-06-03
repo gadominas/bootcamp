@@ -1,4 +1,4 @@
-package bootcamp.integrations.glproxy;
+package bootcamp.integrations.glproxy.kafka;
 
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.springframework.kafka.core.ProducerFactory;
 
 @Configuration
 @EnableKafka
-public class Config {
+public class KafkaConfig {
     @Bean
     public ProducerFactory<?, ?> kafkaProducerFactory(KafkaProperties properties) {
         DefaultKafkaProducerFactory<Object, Object> pf =
