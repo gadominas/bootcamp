@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: bootcamp
+management:
+  security:
+   enabled: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    jmx:
+      exposure:
+       include: '*'
+    web:
+     exposure:
+      include: '*'
+      base-path: /actuator
+    cors:
+      allowed-origins: true
+      enabled-by-default: false

@@ -13,8 +13,9 @@ public class CamelEIPRoutingExample extends RouteBuilder {
 
         from("direct:consumer")
                 .routeId("consumer")
-                .split(body().tokenize("-")).parallelProcessing()
-                .log("${body}")
+                .split(body().tokenize("-"))
+                //.parallelProcessing()
+                .log("Consumed: ${body}")
                 .to("direct:reverse");
 //                .choice()
 //                    .when(body().contains("john"))
@@ -29,10 +30,11 @@ public class CamelEIPRoutingExample extends RouteBuilder {
 //                        .to("direct:reverse");
 
         from("direct:reverse")
-                .log("Input: ${body}")
+                .routeId("reverse")
+                .log("Preparing for reversal: ${body}")
                 .setHeader(Exchange.HTTP_METHOD, constant("GET"))
-                .enrich().simple("http://localhost:8080/reverse/${body}")
-                .log("Reversed output: ${body}")
-                .to("stream:out");
+                .enrich().simple("http://localhost:9090/reverse/${body}")
+                .log("Received from reversal: ${body}")
+                .end();
     }
 }

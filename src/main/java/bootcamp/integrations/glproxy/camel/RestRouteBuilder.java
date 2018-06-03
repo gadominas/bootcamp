@@ -16,18 +16,19 @@ public class RestRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         restConfiguration()
-                .host("localhost")
-                .port("8080")
                 .component("restlet")
+                .host("localhost")
+                .port("9090")
                 .bindingMode(RestBindingMode.json)
                 .dataFormatProperty("prettyPrint", "true");
 
-        rest("/reverse")
-                .consumes("application/json")
-                .produces("application/json")
-                .get("/{in}")
-                .outType(String.class)
+        rest("/reverse").description("Reversing provided text")
+                .consumes("application/json").description("Consumes json")
+                .produces("application/json").description("Produce json")
+                .get("/{in}").description("Takes text as an argument")
+                .outType(String.class).description("Produce string type response")
                 .route()
+                .routeId("rest-reverse")
                 //.delay(5000L)
                 .process((exchange) -> {
                     String reversedInput = (String) exchange.getIn().getHeader("in");
@@ -41,6 +42,7 @@ public class RestRouteBuilder extends RouteBuilder {
 //                .post("/{url}")
 //                .outType(String.class)
 //                .route()
+//                .routeId("rest-topic")
 //                .log("Sending to topic: ${header.url}")
 //                .setProperty("urlIn", simple("${header.url}"))
 //                .process((exchange) -> {
