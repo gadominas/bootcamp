@@ -1,4 +1,4 @@
-package bootcamp.integrations.glproxy.kafka;
+package bootcamp.integrations.kafka;
 
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;

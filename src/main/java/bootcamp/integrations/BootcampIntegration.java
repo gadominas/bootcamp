@@ -1,4 +1,4 @@
-package bootcamp.integrations.glproxy;
+package bootcamp.integrations;
 
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
@@ -20,7 +20,7 @@ public class BootcampIntegration {
     @Produce(uri = "direct:consumer")
     private ProducerTemplate producerTemplate;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(BootcampIntegration.class, args);
     }
 
@@ -28,10 +28,12 @@ public class BootcampIntegration {
     public void listen(ConsumerRecord<?, ?> cr) throws Exception {
         logger.info("Received from topic 'test': {}", cr.value());
 
+        // simple route invocation as fire and forget.
         producerTemplate.asyncSendBody(producerTemplate.getDefaultEndpoint(), cr.value());
 
-//        Object results = producerTemplate.requestBody(producerTemplate.getDefaultEndpoint(), cr.value());
-//        logger.info("Some:"+results.toString());
+        // in case you want to have a sync call you can use 'producerTemplate.requestBody'.
+        // in that order your kafka listener thread will be blocked until you receive a response from camel route.
+
 
         logger.info("!! FINITA LA COMMEDIA !!");
     }
