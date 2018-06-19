@@ -14,27 +14,8 @@ public class CamelEIPRoutingExample extends RouteBuilder {
         from("direct:consumer")
                 .routeId("consumer")
                 .split(body().tokenize("-"))
-                /* enabling parallel processing afterwards
-                 * for each token to go further in async way.
-                 * You will notice this in stdout as records will
-                 * appear in non deterministic order.
-                 * */
                 .parallelProcessing()
-                .log("Consumed: ${body}")
-                /* that's is the simple choice, aka: content router */
-                .choice()
-                    .when(body().contains("john"))
-                        .transform(body().prepend("Hello "))
-                        .to("stream:out")
-                        .endChoice()
-                    .when(body().contains("steve"))
-                        .transform(body().prepend("Bye "))
-                        .to("stream:out")
-                        .endChoice()
-                    .otherwise()
-                        /* In case token is not steve or john, token
-                         * is send to reverse route for str reverse through rest */
-                        .to("direct:reverse");
+                .to("direct:reverse");
 
         from("direct:reverse")
                 .routeId("reverse")
